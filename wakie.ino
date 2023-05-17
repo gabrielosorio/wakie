@@ -14,7 +14,11 @@ LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 void setup() {
   lcd.begin(16, 2);
   lcd.print("21:03");
-  lcd.setCursor(13, 0);
+  lcd.setCursor(6, 0);
+  lcd.print("|");
+  lcd.setCursor(6, 1);
+  lcd.print("|");
+  lcd.setCursor(8, 0);
   lcd.print("Wed");
   lcd.setCursor(8, 1);
   lcd.print("17/05/23");
