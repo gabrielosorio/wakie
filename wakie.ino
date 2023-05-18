@@ -38,6 +38,10 @@ void setup() {
 }
 
 void loop() {
+  soundAlarm();
+}
+
+void soundAlarm() {
   // Go through the note bitmap rows
   for (uint8_t row = 0; row < noteBitmapRows; row++) {
     // Go through the columns in the note bitmap row
