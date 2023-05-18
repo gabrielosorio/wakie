@@ -11,6 +11,9 @@
 
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
+// Alarm Settings
+const uint8_t maxAlarmDuration = 5000;
+
 #define PIEZO 10
 const uint8_t noteBitmapRows = 2;
 const uint8_t noteBitmapColumns = 8;
@@ -38,7 +41,9 @@ void setup() {
 }
 
 void loop() {
-  soundAlarm();
+  if (millis() < maxAlarmDuration) {
+    soundAlarm();
+  }
 }
 
 void soundAlarm() {
