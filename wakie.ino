@@ -11,8 +11,11 @@
 
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
-// Alarm Settings
-const uint8_t maxAlarmDuration = 5000;
+// Hour/minutes in 24-hour time format
+uint8_t currentHour = 6;
+uint8_t currentMinute = 45;
+const uint8_t alarmHour = 6;
+const uint8_t alarmMinute = 45;
 
 #define PIEZO 10
 const uint8_t noteBitmapRows = 2;
@@ -41,9 +44,17 @@ void setup() {
 }
 
 void loop() {
-  if (millis() < maxAlarmDuration) {
+  // Current duration is within the specified alarmMinute
+  if (alarmTimeIsReached(currentHour, currentMinute)) {
     soundAlarm();
   }
+}
+
+bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
+  if (hour == alarmHour && minute == alarmMinute) {
+    return true;
+  }
+  return false;
 }
 
 void soundAlarm() {
