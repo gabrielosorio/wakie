@@ -2,14 +2,14 @@
 
 // Display Pins
 // LCD      UNO   Nano
-// 4  (RS)  12    2 (D2)
-// 6  (E)   11    3 (D3)
-// 11 (D4)  5     4 (D4)
-// 12 (D5)  4     5 (D5)
-// 13 (D6)  3     6 (D6)
-// 14 (D7)  2     7 (D7)
+// 4  (RS)  12    4 (D4)
+// 6  (E)   11    5 (D5)
+// 11 (D4)  5     6 (D6)
+// 12 (D5)  4     7 (D7)
+// 13 (D6)  3     8 (D8)
+// 14 (D7)  2     9 (D9)
 
-LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+LiquidCrystal lcd(4, 5, 6, 7, 8, 9);
 
 // Hour/minutes in 24-hour time format
 uint8_t currentHour = 6;
@@ -17,10 +17,10 @@ uint8_t currentMinute = 45;
 const uint8_t alarmHour = 6;
 const uint8_t alarmMinute = 45;
 
-#define DEACTIVATE_ALARM_BUTTON 11
+#define DEACTIVATE_ALARM_BUTTON 12
 bool alarmDeactivated = false;
 
-#define PIEZO 10
+#define PIEZO 11
 const uint8_t noteBitmapRows = 2;
 const uint8_t noteBitmapColumns = 8;
 uint8_t noteDuration = 50;
