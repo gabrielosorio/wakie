@@ -17,6 +17,9 @@ uint8_t currentMinute = 45;
 const uint8_t alarmHour = 6;
 const uint8_t alarmMinute = 45;
 
+#define DEACTIVATE_ALARM_BUTTON 11
+bool alarmDeactivated = false;
+
 #define PIEZO 10
 const uint8_t noteBitmapRows = 2;
 const uint8_t noteBitmapColumns = 8;
@@ -31,6 +34,8 @@ unsigned char tuneBitmap[noteBitmapRows] = {
 void setup() {
   Serial.begin(9600);
 
+  pinMode(DEACTIVATE_ALARM_BUTTON, INPUT);
+
   lcd.begin(16, 2);
   lcd.print("21:03");
   lcd.setCursor(6, 0);
@@ -44,9 +49,23 @@ void setup() {
 }
 
 void loop() {
+  if (digitalRead(DEACTIVATE_ALARM_BUTTON) == HIGH) {
+    Serial.println("Button pressed");
+    alarmDeactivated = true;
+  }
+
   // Current duration is within the specified alarmMinute
   if (alarmTimeIsReached(currentHour, currentMinute)) {
-    soundAlarm();
+    if (!alarmDeactivated) {
+      soundAlarm();
+    }
+  } else {
+    // Outside of the alarm window reset the
+    // alarmDeactivated check if it's enabled
+    if (alarmDeactivated) {
+      Serial.println("Resetting button");
+      alarmDeactivated = false;
+    }
   }
 }
 
