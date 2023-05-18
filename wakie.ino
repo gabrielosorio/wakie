@@ -11,7 +11,20 @@
 
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
+#define PIEZO 10
+const uint8_t noteBitmapRows = 2;
+const uint8_t noteBitmapColumns = 8;
+uint8_t noteDuration = 50;
+
+// Bits represent notes on or off
+unsigned char tuneBitmap[noteBitmapRows] = {
+  B01010101,
+  B00000000
+}; // Bits are traversed back-to-front
+
 void setup() {
+  Serial.begin(9600);
+
   lcd.begin(16, 2);
   lcd.print("21:03");
   lcd.setCursor(6, 0);
@@ -25,4 +38,32 @@ void setup() {
 }
 
 void loop() {
+  // Go through the note bitmap rows
+  for (uint8_t row = 0; row < noteBitmapRows; row++) {
+    // Go through the columns in the note bitmap row
+    for (uint8_t column = 0; column < noteBitmapColumns; column++) {
+      byte currentTuneBit = bitRead(tuneBitmap[row], column);  // needs to pass *bitmap if not already a pointer
+
+      if (currentTuneBit == 1) {
+        // A note should play
+        handleCurrentNoteOn();
+      } else {
+        // It is a rest
+        handleCurrentNoteOff();
+      }
+    }
+  }
+}
+
+// The melody is playing a note
+void handleCurrentNoteOn() {
+  Serial.println("Note On");
+  tone(PIEZO, 880, noteDuration);
+  delay(noteDuration);
+}
+
+// The melody is playing a rest
+void handleCurrentNoteOff() {
+  Serial.println("Note Off");
+  delay(noteDuration);
 }
