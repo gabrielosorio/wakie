@@ -105,10 +105,13 @@ void renderDisplay() {
   lcd.print(currentHour);
   lcd.print(":");
   lcd.print(currentMinute);
+
+  // Vertical spacer
   lcd.setCursor(6, 0);
   lcd.print("|");
   lcd.setCursor(6, 1);
   lcd.print("|");
+
   lcd.setCursor(8, 0);
   lcd.print(weekdayNames[currentWeekday - 1]);
   lcd.setCursor(8, 1);
