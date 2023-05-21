@@ -32,7 +32,7 @@ const uint8_t alarmMinute = 45;
 uint8_t currentWeekday = -1; // Starts on Sunday
 uint8_t currentDay = -1;
 uint8_t currentMonth = -1;
-uint8_t currentYear = -1;
+uint8_t currentYear = -1; // Offset from 1970
 
 const char *weekdayNames[7] = {
   "Sun",
@@ -71,6 +71,7 @@ void loop() {
     currentHour = tm.Hour;
     currentMinute = tm.Minute;
     currentWeekday = tm.Wday;
+    currentYear = tm.Year;
   } else {
     Serial.print("[DS1307] Read error!");
   }
@@ -115,7 +116,15 @@ void renderDisplay() {
   lcd.setCursor(8, 0);
   lcd.print(weekdayNames[currentWeekday - 1]);
   lcd.setCursor(8, 1);
-  lcd.print("17/05/23");
+  lcd.print("/");
+  lcd.print("/");
+  lcd.print(doubleDigitYear(currentYear));
+}
+
+uint8_t doubleDigitYear(uint8_t year) {
+  // `year` is the offset from 1970
+  // Lazy non-future-proof year formatting
+  return 1970 + year - 2000;
 }
 
 bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
