@@ -71,6 +71,8 @@ void loop() {
     currentHour = tm.Hour;
     currentMinute = tm.Minute;
     currentWeekday = tm.Wday;
+    currentDay = tm.Day;
+    currentMonth = tm.Month;
     currentYear = tm.Year;
   } else {
     Serial.print("[DS1307] Read error!");
@@ -102,10 +104,15 @@ void loop() {
 }
 
 void renderDisplay() {
+  char formatOutput[2]; // Buffer to process number formatting
+
+  // Time
   lcd.begin(16, 2);
-  lcd.print(currentHour);
+  numberToDoubleDigitChar(currentHour, formatOutput);
+  lcd.print(formatOutput); // Hour
   lcd.print(":");
-  lcd.print(currentMinute);
+  numberToDoubleDigitChar(currentMinute, formatOutput);
+  lcd.print(formatOutput); // Minute
 
   // Vertical spacer
   lcd.setCursor(6, 0);
@@ -113,10 +120,20 @@ void renderDisplay() {
   lcd.setCursor(6, 1);
   lcd.print("|");
 
+  // Weekday
   lcd.setCursor(8, 0);
   lcd.print(weekdayNames[currentWeekday - 1]);
   lcd.setCursor(8, 1);
+
+  // Date
+  numberToDoubleDigitChar(currentDay, formatOutput);
+  lcd.print(formatOutput); // Day
+
   lcd.print("/");
+
+  numberToDoubleDigitChar(currentMonth, formatOutput);
+  lcd.print(formatOutput); // Month
+
   lcd.print("/");
   lcd.print(doubleDigitYear(currentYear));
 }
@@ -125,6 +142,14 @@ uint8_t doubleDigitYear(uint8_t year) {
   // `year` is the offset from 1970
   // Lazy non-future-proof year formatting
   return 1970 + year - 2000;
+}
+
+void numberToDoubleDigitChar(uint8_t number, char *output) {
+  if (number >= 0 && number < 10) {
+    sprintf(output, "0%d", number);
+  } else {
+    sprintf(output, "%d", number);
+  }
 }
 
 bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
