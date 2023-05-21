@@ -29,6 +29,21 @@ uint8_t lastMinute = -1;
 const uint8_t alarmHour = 6;
 const uint8_t alarmMinute = 45;
 
+uint8_t currentWeekday = -1; // Starts on Sunday
+uint8_t currentDay = -1;
+uint8_t currentMonth = -1;
+uint8_t currentYear = -1;
+
+const char *weekdayNames[7] = {
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat"
+};
+
 #define DEACTIVATE_ALARM_BUTTON 12
 bool alarmDeactivated = false;
 
@@ -55,6 +70,7 @@ void loop() {
   if (RTC.read(tm)) {
     currentHour = tm.Hour;
     currentMinute = tm.Minute;
+    currentWeekday = tm.Wday;
   } else {
     Serial.print("[DS1307] Read error!");
   }
@@ -94,7 +110,7 @@ void renderDisplay() {
   lcd.setCursor(6, 1);
   lcd.print("|");
   lcd.setCursor(8, 0);
-  lcd.print("Wed");
+  lcd.print(weekdayNames[currentWeekday - 1]);
   lcd.setCursor(8, 1);
   lcd.print("17/05/23");
 }
