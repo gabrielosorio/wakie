@@ -1,3 +1,14 @@
+// RTC
+#include <Wire.h>
+#include <TimeLib.h>
+#include <DS1307RTC.h>
+
+// Tiny RTC Pins
+// RTC    Nano
+// SDA    A4
+// SCL    A5
+
+// LCD
 #include <LiquidCrystal.h>
 
 // Display Pins
@@ -14,8 +25,24 @@ LiquidCrystal lcd(4, 5, 6, 7, 8, 9);
 // Hour/minutes in 24-hour time format
 uint8_t currentHour = 6;
 uint8_t currentMinute = 45;
+uint8_t lastMinute = -1;
 const uint8_t alarmHour = 6;
 const uint8_t alarmMinute = 45;
+
+uint8_t currentWeekday = -1; // Starts on Sunday
+uint8_t currentDay = -1;
+uint8_t currentMonth = -1;
+uint8_t currentYear = -1; // Offset from 1970
+
+const char *weekdayNames[7] = {
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat"
+};
 
 #define DEACTIVATE_ALARM_BUTTON 12
 bool alarmDeactivated = false;
@@ -35,20 +62,27 @@ void setup() {
   Serial.begin(9600);
 
   pinMode(DEACTIVATE_ALARM_BUTTON, INPUT);
-
-  lcd.begin(16, 2);
-  lcd.print("21:03");
-  lcd.setCursor(6, 0);
-  lcd.print("|");
-  lcd.setCursor(6, 1);
-  lcd.print("|");
-  lcd.setCursor(8, 0);
-  lcd.print("Wed");
-  lcd.setCursor(8, 1);
-  lcd.print("17/05/23");
 }
 
 void loop() {
+  tmElements_t tm;
+
+  if (RTC.read(tm)) {
+    currentHour = tm.Hour;
+    currentMinute = tm.Minute;
+    currentWeekday = tm.Wday;
+    currentDay = tm.Day;
+    currentMonth = tm.Month;
+    currentYear = tm.Year;
+  } else {
+    Serial.print("[DS1307] Read error!");
+  }
+
+  if (currentMinute != lastMinute) {
+    lastMinute = currentMinute;
+    renderDisplay();
+  }
+
   if (digitalRead(DEACTIVATE_ALARM_BUTTON) == HIGH) {
     Serial.println("Button pressed");
     alarmDeactivated = true;
@@ -66,6 +100,55 @@ void loop() {
       Serial.println("Resetting button");
       alarmDeactivated = false;
     }
+  }
+}
+
+void renderDisplay() {
+  char formatOutput[2]; // Buffer to process number formatting
+
+  // Time
+  lcd.begin(16, 2);
+  numberToDoubleDigitChar(currentHour, formatOutput);
+  lcd.print(formatOutput); // Hour
+  lcd.print(":");
+  numberToDoubleDigitChar(currentMinute, formatOutput);
+  lcd.print(formatOutput); // Minute
+
+  // Vertical spacer
+  lcd.setCursor(6, 0);
+  lcd.print("|");
+  lcd.setCursor(6, 1);
+  lcd.print("|");
+
+  // Weekday
+  lcd.setCursor(8, 0);
+  lcd.print(weekdayNames[currentWeekday - 1]);
+  lcd.setCursor(8, 1);
+
+  // Date
+  numberToDoubleDigitChar(currentDay, formatOutput);
+  lcd.print(formatOutput); // Day
+
+  lcd.print("/");
+
+  numberToDoubleDigitChar(currentMonth, formatOutput);
+  lcd.print(formatOutput); // Month
+
+  lcd.print("/");
+  lcd.print(doubleDigitYear(currentYear));
+}
+
+uint8_t doubleDigitYear(uint8_t year) {
+  // `year` is the offset from 1970
+  // Lazy non-future-proof year formatting
+  return 1970 + year - 2000;
+}
+
+void numberToDoubleDigitChar(uint8_t number, char *output) {
+  if (number >= 0 && number < 10) {
+    sprintf(output, "0%d", number);
+  } else {
+    sprintf(output, "%d", number);
   }
 }
 
