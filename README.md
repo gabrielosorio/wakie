@@ -6,16 +6,27 @@ An RTC-based alarm clock built for no good reason.
 
 ## Hardware
 
-![Breadboard wiring diagram](/hardware/Wakie_bb.png?raw=true "Breadboard wiring diagram")
-
 ### BOM
-1. Arduino Nano
-1. DS1307 (Tiny RTC)
-1. LCM1602C LCD
-1. Piezo speaker
-1. Momentary switch
-1. 1K Resistor
-1. 220R Resistor
+
+<table>
+<tr>
+<td valign="top">
+<ol>
+<li>Arduino Nano</li>
+<li>DS1307 (Tiny RTC)</li>
+<li>LCM1602C LCD</li>
+<li>Piezo speaker</li>
+<li>Momentary switch</li>
+<li>1K Resistor</li>
+<li>220R Resistor</li>
+</ol>
+</td>
+
+<td>
+<img src="/hardware/Wakie_bb.png" alt="Breadboard wiring diagram" />
+</td>
+</tr>
+</table>
 
 ## License
 
