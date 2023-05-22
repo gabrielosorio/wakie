@@ -6,7 +6,13 @@ An RTC-based alarm clock built for no good reason.
 
 ## Hardware
 
+### Prototype
+
+![Prototype](/hardware/prototype.png?raw=true "Prototype")
+
 ### BOM
+
+Components in the wiring diagram are merely illustrative and do not necessarily represent the exact make of the utilized components.
 
 <table>
 <tr>
