@@ -8,7 +8,9 @@ An RTC-based alarm clock built for no good reason.
 
 ### Prototype
 
-![Prototype](/hardware/prototype.png?raw=true "Prototype")
+Breadboard Prototype:
+
+![Breadboard prototype](/hardware/breadboard_prototype.png?raw=true "Breadboard prototype")
 
 ### BOM
 
