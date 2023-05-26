@@ -47,6 +47,8 @@ const char *weekdayNames[7] = {
 #define DEACTIVATE_ALARM_BUTTON 12
 bool alarmDeactivated = false;
 
+#define LCD_LED 10
+
 #define PIEZO 11
 const uint8_t noteBitmapRows = 2;
 const uint8_t noteBitmapColumns = 8;
@@ -62,6 +64,8 @@ void setup() {
   Serial.begin(9600);
 
   pinMode(DEACTIVATE_ALARM_BUTTON, INPUT);
+  pinMode(LCD_LED, OUTPUT);
+  digitalWrite(LCD_LED, HIGH);
 }
 
 void loop() {
