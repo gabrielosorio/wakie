@@ -25,6 +25,8 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 <li>LCM1602C LCD</li>
 <li>Piezo speaker</li>
 <li>Momentary switch</li>
+<li>2n3904 NPN Transistor</li>
+<li>100K Resistor</li>
 <li>1K Resistor</li>
 <li>220R Resistor</li>
 </ol>
