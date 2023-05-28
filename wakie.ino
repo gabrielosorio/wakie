@@ -125,11 +125,13 @@ void renderDisplay() {
   lcd.print("|");
 
   // Weekday
-  lcd.setCursor(8, 0);
-  lcd.print(weekdayNames[currentWeekday - 1]);
-  lcd.setCursor(8, 1);
+  if (currentWeekday > 0) {
+    lcd.setCursor(8, 0);
+    lcd.print(weekdayNames[currentWeekday - 1]);
+  }
 
   // Date
+  lcd.setCursor(8, 1);
   numberToDoubleDigitChar(currentDay, formatOutput);
   lcd.print(formatOutput); // Day
 
