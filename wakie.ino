@@ -125,9 +125,9 @@ void renderDisplay() {
   lcd.print("|");
 
   // Weekday
-  if (currentWeekday > 0) {
+  if (currentWeekday >= 0) {
     lcd.setCursor(8, 0);
-    lcd.print(weekdayNames[currentWeekday - 1]);
+    lcd.print(weekdayNames[currentWeekday]);
   }
 
   // Date
