@@ -44,7 +44,7 @@ const char *weekdayNames[7] = {
   "Sat"
 };
 
-#define DEACTIVATE_ALARM_BUTTON 12
+#define BUTTON 2
 bool alarmDeactivated = false;
 
 #define LCD_LED 10
@@ -63,7 +63,10 @@ unsigned char tuneBitmap[noteBitmapRows] = {
 void setup() {
   Serial.begin(9600);
 
-  pinMode(DEACTIVATE_ALARM_BUTTON, INPUT);
+  // Interrupts
+  attachInterrupt(digitalPinToInterrupt(BUTTON), buttonInterrupt, FALLING);
+
+  pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
   digitalWrite(LCD_LED, HIGH);
 }
@@ -87,11 +90,6 @@ void loop() {
     renderDisplay();
   }
 
-  if (digitalRead(DEACTIVATE_ALARM_BUTTON) == HIGH) {
-    Serial.println("Button pressed");
-    alarmDeactivated = true;
-  }
-
   // Current duration is within the specified alarmMinute
   if (alarmTimeIsReached(currentHour, currentMinute)) {
     if (!alarmDeactivated) {
@@ -105,6 +103,11 @@ void loop() {
       alarmDeactivated = false;
     }
   }
+}
+
+void buttonInterrupt() {
+    Serial.println("Button pressed");
+    alarmDeactivated = true;
 }
 
 void renderDisplay() {
@@ -125,11 +128,13 @@ void renderDisplay() {
   lcd.print("|");
 
   // Weekday
-  lcd.setCursor(8, 0);
-  lcd.print(weekdayNames[currentWeekday - 1]);
-  lcd.setCursor(8, 1);
+  if (currentWeekday >= 0) {
+    lcd.setCursor(8, 0);
+    lcd.print(weekdayNames[currentWeekday]);
+  }
 
   // Date
+  lcd.setCursor(8, 1);
   numberToDoubleDigitChar(currentDay, formatOutput);
   lcd.print(formatOutput); // Day
 
