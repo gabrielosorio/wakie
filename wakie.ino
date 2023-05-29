@@ -44,7 +44,7 @@ const char *weekdayNames[7] = {
   "Sat"
 };
 
-#define DEACTIVATE_ALARM_BUTTON 12
+#define DEACTIVATE_ALARM_BUTTON 2
 bool alarmDeactivated = false;
 
 #define LCD_LED 10
