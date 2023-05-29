@@ -2,7 +2,8 @@
 
 ## Overview
 
-An RTC-based alarm clock built for no good reason.
+I bricked my phone in an utter state of DIY hubris.
+Making up for one of the utilities lost in the aftermath, I put together an alarm clock with parts I had laying around.
 
 ## Hardware
 
@@ -19,6 +20,7 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 <table>
 <tr>
 <td valign="top">
+<h4>Components</h4>
 <ol>
 <li>Arduino Nano</li>
 <li>DS1307 (Tiny RTC)</li>
