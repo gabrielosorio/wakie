@@ -1,5 +1,10 @@
 # Wakie
 
+![Alarm Display](/hardware/alarm_display.png?raw=true "Alarm Display")
+![Date-Time Display](/hardware/datetime_display.png?raw=true "DateTime Display")
+
+Vector graphics from wokwi.com.
+
 ## Overview
 
 I bricked my phone in an utter state of DIY hubris.
