@@ -69,7 +69,7 @@ void setup() {
 
   pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
-  digitalWrite(LCD_LED, lcdLedState);
+  enableLcdBacklight();
 }
 
 void loop() {
@@ -114,8 +114,7 @@ void buttonInterrupt() {
       alarmDeactivated = true;
     } else {
       // Otherwise use button to toggle backlight on/off
-      lcdLedState = !lcdLedState;
-      digitalWrite(LCD_LED, lcdLedState);
+      toggleLcdBacklight();
     }
 }
 
@@ -179,8 +178,7 @@ bool alarmTimeIsReached() {
 
 void soundAlarm() {
   // Keep LCD backlight on during the alarm
-  lcdLedState = HIGH;
-  digitalWrite(LCD_LED, lcdLedState);
+  enableLcdBacklight();
 
   // Go through the note bitmap rows
   for (uint8_t row = 0; row < noteBitmapRows; row++) {
@@ -210,4 +208,19 @@ void handleCurrentNoteOn() {
 void handleCurrentNoteOff() {
   Serial.println("Note Off");
   delay(noteDuration);
+}
+
+void enableLcdBacklight() {
+  lcdLedState = HIGH;
+  digitalWrite(LCD_LED, lcdLedState);
+}
+
+void disableLcdBacklight() {
+  lcdLedState = LOW;
+  digitalWrite(LCD_LED, lcdLedState);
+}
+
+void toggleLcdBacklight() {
+  lcdLedState = !lcdLedState;
+  digitalWrite(LCD_LED, lcdLedState);
 }
