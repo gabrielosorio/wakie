@@ -49,6 +49,8 @@ bool alarmDeactivated = false;
 
 #define LCD_LED 10
 uint8_t lcdLedState = HIGH;
+int backlightDimTimeout = 6000; // Milliseconds
+unsigned long nextBacklightDimTimestamp = 0;
 
 #define PIEZO 11
 const uint8_t noteBitmapRows = 2;
@@ -75,6 +77,8 @@ void setup() {
 void loop() {
   readRtc();
 
+  handleLcdBacklightDimming();
+
   if (currentMinute != lastMinute) {
     lastMinute = currentMinute;
     renderDisplay();
@@ -89,7 +93,6 @@ void loop() {
     // Outside of the alarm window reset the
     // alarmDeactivated check if it's enabled
     if (alarmDeactivated) {
-      Serial.println("Resetting button");
       alarmDeactivated = false;
     }
   }
@@ -212,6 +215,27 @@ void handleCurrentNoteOn() {
 void handleCurrentNoteOff() {
   Serial.println("Note Off");
   delay(noteDuration);
+}
+
+void handleLcdBacklightDimming() {
+  if (lcdBacklightIsOn()) {
+    if (nextBacklightDimTimestamp == 0) {
+      // Arm a timeout to dim the backlight after the set interval
+      nextBacklightDimTimestamp = millis() + backlightDimTimeout;
+    }
+
+    // Check if the backlight timeout was reached
+    if (millis() >= nextBacklightDimTimestamp) {
+      disableLcdBacklight();
+    }
+  } else {
+    // Disarm dimming timeout
+    nextBacklightDimTimestamp = 0;
+  }
+}
+
+bool lcdBacklightIsOn() {
+  return lcdLedState == HIGH;
 }
 
 void enableLcdBacklight() {
