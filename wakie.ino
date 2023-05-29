@@ -169,6 +169,9 @@ bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
 }
 
 void soundAlarm() {
+  // Keep LCD backlight on during the alarm
+  digitalWrite(LCD_LED, HIGH);
+
   // Go through the note bitmap rows
   for (uint8_t row = 0; row < noteBitmapRows; row++) {
     // Go through the columns in the note bitmap row
