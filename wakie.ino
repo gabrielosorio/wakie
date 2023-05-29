@@ -69,6 +69,8 @@ void setup() {
   // Interrupts
   attachInterrupt(digitalPinToInterrupt(BUTTON), buttonInterrupt, FALLING);
 
+  lcd.begin(16, 2);
+
   pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
   enableLcdBacklight();
@@ -128,8 +130,9 @@ void readRtc() {
 void renderDisplay() {
   char formatOutput[2]; // Buffer to process number formatting
 
+  lcd.clear();
+
   // Time
-  lcd.begin(16, 2);
   numberToDoubleDigitChar(currentHour, formatOutput);
   lcd.print(formatOutput); // Hour
   lcd.print(":");
