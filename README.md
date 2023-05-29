@@ -7,7 +7,7 @@ Vector graphics from wokwi.com.
 ## Overview
 
 I bricked my phone in an utter state of DIY hubris.
-To make up for one of the utilities lost in the aftermath, I put together an alarm clock with parts I had laying around.
+To make up for one of the utilities lost in the aftermath, I put together an alarm clock with parts I had lying around.
 
 ## Hardware
 
@@ -19,7 +19,7 @@ Breadboard Prototype:
 
 ### BOM
 
-Components in the wiring diagram are merely illustrative and do not necessarily represent the exact make of the utilized components.
+Components in the wiring diagram are merely illustrative and do not necessarily represent the exact make of the utilized parts.
 
 <table>
 <tr>
