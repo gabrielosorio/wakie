@@ -48,6 +48,9 @@ const char *weekdayNames[7] = {
 bool alarmDeactivated = false;
 
 #define LCD_LED 10
+uint8_t lcdLedState = HIGH;
+int backlightDimTimeout = 6000; // Milliseconds
+unsigned long nextBacklightDimTimestamp = 0;
 
 #define PIEZO 11
 const uint8_t noteBitmapRows = 2;
@@ -68,10 +71,46 @@ void setup() {
 
   pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
-  digitalWrite(LCD_LED, HIGH);
+  enableLcdBacklight();
 }
 
 void loop() {
+  readRtc();
+
+  handleLcdBacklightDimming();
+
+  if (currentMinute != lastMinute) {
+    lastMinute = currentMinute;
+    renderDisplay();
+  }
+
+  // Current duration is within the specified alarmMinute
+  if (alarmTimeIsReached()) {
+    if (!alarmDeactivated) {
+      soundAlarm();
+    }
+  } else {
+    // Outside of the alarm window reset the
+    // alarmDeactivated check if it's enabled
+    if (alarmDeactivated) {
+      alarmDeactivated = false;
+    }
+  }
+}
+
+void buttonInterrupt() {
+    Serial.println("Button pressed");
+
+    // Use button to deactivate alarm if currently sounding
+    if (alarmTimeIsReached()) {
+      alarmDeactivated = true;
+    } else {
+      // Otherwise use button to toggle backlight on/off
+      toggleLcdBacklight();
+    }
+}
+
+void readRtc() {
   tmElements_t tm;
 
   if (RTC.read(tm)) {
@@ -84,30 +123,6 @@ void loop() {
   } else {
     Serial.print("[DS1307] Read error!");
   }
-
-  if (currentMinute != lastMinute) {
-    lastMinute = currentMinute;
-    renderDisplay();
-  }
-
-  // Current duration is within the specified alarmMinute
-  if (alarmTimeIsReached(currentHour, currentMinute)) {
-    if (!alarmDeactivated) {
-      soundAlarm();
-    }
-  } else {
-    // Outside of the alarm window reset the
-    // alarmDeactivated check if it's enabled
-    if (alarmDeactivated) {
-      Serial.println("Resetting button");
-      alarmDeactivated = false;
-    }
-  }
-}
-
-void buttonInterrupt() {
-    Serial.println("Button pressed");
-    alarmDeactivated = true;
 }
 
 void renderDisplay() {
@@ -161,14 +176,17 @@ void numberToDoubleDigitChar(uint8_t number, char *output) {
   }
 }
 
-bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
-  if (hour == alarmHour && minute == alarmMinute) {
+bool alarmTimeIsReached() {
+  if (currentHour == alarmHour && currentMinute == alarmMinute) {
     return true;
   }
   return false;
 }
 
 void soundAlarm() {
+  // Keep LCD backlight on during the alarm
+  enableLcdBacklight();
+
   // Go through the note bitmap rows
   for (uint8_t row = 0; row < noteBitmapRows; row++) {
     // Go through the columns in the note bitmap row
@@ -197,4 +215,40 @@ void handleCurrentNoteOn() {
 void handleCurrentNoteOff() {
   Serial.println("Note Off");
   delay(noteDuration);
+}
+
+void handleLcdBacklightDimming() {
+  if (lcdBacklightIsOn()) {
+    if (nextBacklightDimTimestamp == 0) {
+      // Arm a timeout to dim the backlight after the set interval
+      nextBacklightDimTimestamp = millis() + backlightDimTimeout;
+    }
+
+    // Check if the backlight timeout was reached
+    if (millis() >= nextBacklightDimTimestamp) {
+      disableLcdBacklight();
+    }
+  } else {
+    // Disarm dimming timeout
+    nextBacklightDimTimestamp = 0;
+  }
+}
+
+bool lcdBacklightIsOn() {
+  return lcdLedState == HIGH;
+}
+
+void enableLcdBacklight() {
+  lcdLedState = HIGH;
+  digitalWrite(LCD_LED, lcdLedState);
+}
+
+void disableLcdBacklight() {
+  lcdLedState = LOW;
+  digitalWrite(LCD_LED, lcdLedState);
+}
+
+void toggleLcdBacklight() {
+  lcdLedState = !lcdLedState;
+  digitalWrite(LCD_LED, lcdLedState);
 }
