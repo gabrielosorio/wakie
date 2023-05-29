@@ -1,7 +1,6 @@
 # Wakie
 
-![Alarm Display](/hardware/alarm_display.png?raw=true "Alarm Display")
-![Date-Time Display](/hardware/datetime_display.png?raw=true "DateTime Display")
+![Alarm Display Wide](/hardware/alarm_display_wide.png?raw=true "Alarm Display")
 
 Vector graphics from wokwi.com.
 
@@ -44,6 +43,11 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 </td>
 </tr>
 </table>
+
+### Gallery
+
+![Alarm Display](/hardware/alarm_display.png?raw=true "Alarm Display")
+![Date-Time Display](/hardware/datetime_display.png?raw=true "DateTime Display")
 
 ## License
 
