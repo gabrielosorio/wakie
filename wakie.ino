@@ -73,18 +73,7 @@ void setup() {
 }
 
 void loop() {
-  tmElements_t tm;
-
-  if (RTC.read(tm)) {
-    currentHour = tm.Hour;
-    currentMinute = tm.Minute;
-    currentWeekday = tm.Wday;
-    currentDay = tm.Day;
-    currentMonth = tm.Month;
-    currentYear = tm.Year;
-  } else {
-    Serial.print("[DS1307] Read error!");
-  }
+  readRtc();
 
   if (currentMinute != lastMinute) {
     lastMinute = currentMinute;
@@ -116,6 +105,21 @@ void buttonInterrupt() {
       // Otherwise use button to toggle backlight on/off
       toggleLcdBacklight();
     }
+}
+
+void readRtc() {
+  tmElements_t tm;
+
+  if (RTC.read(tm)) {
+    currentHour = tm.Hour;
+    currentMinute = tm.Minute;
+    currentWeekday = tm.Wday;
+    currentDay = tm.Day;
+    currentMonth = tm.Month;
+    currentYear = tm.Year;
+  } else {
+    Serial.print("[DS1307] Read error!");
+  }
 }
 
 void renderDisplay() {
