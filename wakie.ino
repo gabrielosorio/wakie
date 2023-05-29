@@ -44,7 +44,7 @@ const char *weekdayNames[7] = {
   "Sat"
 };
 
-#define DEACTIVATE_ALARM_BUTTON 2
+#define BUTTON 2
 bool alarmDeactivated = false;
 
 #define LCD_LED 10
@@ -63,7 +63,7 @@ unsigned char tuneBitmap[noteBitmapRows] = {
 void setup() {
   Serial.begin(9600);
 
-  pinMode(DEACTIVATE_ALARM_BUTTON, INPUT);
+  pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
   digitalWrite(LCD_LED, HIGH);
 }
@@ -87,7 +87,7 @@ void loop() {
     renderDisplay();
   }
 
-  if (digitalRead(DEACTIVATE_ALARM_BUTTON) == HIGH) {
+  if (digitalRead(BUTTON) == HIGH) {
     Serial.println("Button pressed");
     alarmDeactivated = true;
   }
