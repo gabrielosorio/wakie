@@ -48,6 +48,7 @@ const char *weekdayNames[7] = {
 bool alarmDeactivated = false;
 
 #define LCD_LED 10
+uint8_t lcdLedState = HIGH;
 
 #define PIEZO 11
 const uint8_t noteBitmapRows = 2;
@@ -68,7 +69,7 @@ void setup() {
 
   pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
-  digitalWrite(LCD_LED, HIGH);
+  digitalWrite(LCD_LED, lcdLedState);
 }
 
 void loop() {
@@ -91,7 +92,7 @@ void loop() {
   }
 
   // Current duration is within the specified alarmMinute
-  if (alarmTimeIsReached(currentHour, currentMinute)) {
+  if (alarmTimeIsReached()) {
     if (!alarmDeactivated) {
       soundAlarm();
     }
@@ -107,7 +108,15 @@ void loop() {
 
 void buttonInterrupt() {
     Serial.println("Button pressed");
-    alarmDeactivated = true;
+
+    // Use button to deactivate alarm if currently sounding
+    if (alarmTimeIsReached()) {
+      alarmDeactivated = true;
+    } else {
+      // Otherwise use button to toggle backlight on/off
+      lcdLedState = !lcdLedState;
+      digitalWrite(LCD_LED, lcdLedState);
+    }
 }
 
 void renderDisplay() {
@@ -161,8 +170,8 @@ void numberToDoubleDigitChar(uint8_t number, char *output) {
   }
 }
 
-bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
-  if (hour == alarmHour && minute == alarmMinute) {
+bool alarmTimeIsReached() {
+  if (currentHour == alarmHour && currentMinute == alarmMinute) {
     return true;
   }
   return false;
@@ -170,7 +179,8 @@ bool alarmTimeIsReached(uint8_t hour, uint8_t minute) {
 
 void soundAlarm() {
   // Keep LCD backlight on during the alarm
-  digitalWrite(LCD_LED, HIGH);
+  lcdLedState = HIGH;
+  digitalWrite(LCD_LED, lcdLedState);
 
   // Go through the note bitmap rows
   for (uint8_t row = 0; row < noteBitmapRows; row++) {
