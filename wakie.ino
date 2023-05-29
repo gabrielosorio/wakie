@@ -102,7 +102,7 @@ void buttonInterrupt() {
     Serial.println("Button pressed");
 
     // Use button to deactivate alarm if currently sounding
-    if (alarmTimeIsReached()) {
+    if (alarmTimeIsReached() && !alarmDeactivated) {
       alarmDeactivated = true;
     } else {
       // Otherwise use button to toggle backlight on/off
