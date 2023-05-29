@@ -1,8 +1,13 @@
 # Wakie
 
+![Alarm Display Wide](/hardware/alarm_display_wide.png?raw=true "Alarm Display")
+
+Vector graphics from wokwi.com.
+
 ## Overview
 
-An RTC-based alarm clock built for no good reason.
+I bricked my phone in an utter state of DIY hubris.
+To make up for one of the utilities lost in the aftermath, I put together an alarm clock with parts I had laying around.
 
 ## Hardware
 
@@ -19,6 +24,7 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 <table>
 <tr>
 <td valign="top">
+<h4>Components</h4>
 <ol>
 <li>Arduino Nano</li>
 <li>DS1307 (Tiny RTC)</li>
@@ -37,6 +43,11 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 </td>
 </tr>
 </table>
+
+### Gallery
+
+![Alarm Display](/hardware/alarm_display.png?raw=true "Alarm Display")
+![Date-Time Display](/hardware/datetime_display.png?raw=true "DateTime Display")
 
 ## License
 

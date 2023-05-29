@@ -69,6 +69,8 @@ void setup() {
   // Interrupts
   attachInterrupt(digitalPinToInterrupt(BUTTON), buttonInterrupt, FALLING);
 
+  lcd.begin(16, 2);
+
   pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
   enableLcdBacklight();
@@ -79,22 +81,20 @@ void loop() {
 
   handleLcdBacklightDimming();
 
-  if (currentMinute != lastMinute) {
-    lastMinute = currentMinute;
-    renderDisplay();
+  // Current duration is within the specified alarmMinute
+  if (alarmTimeIsReached() && !alarmDeactivated) {
+    soundAlarm();
+  } else {
+    if (currentMinute != lastMinute) {
+      lastMinute = currentMinute;
+      renderDisplay();
+    }
   }
 
-  // Current duration is within the specified alarmMinute
-  if (alarmTimeIsReached()) {
-    if (!alarmDeactivated) {
-      soundAlarm();
-    }
-  } else {
-    // Outside of the alarm window reset the
-    // alarmDeactivated check if it's enabled
-    if (alarmDeactivated) {
-      alarmDeactivated = false;
-    }
+  // Outside of the alarm window reset the
+  // alarmDeactivated check if it's enabled
+  if (!alarmTimeIsReached() && alarmDeactivated) {
+    alarmDeactivated = false;
   }
 }
 
@@ -102,7 +102,7 @@ void buttonInterrupt() {
     Serial.println("Button pressed");
 
     // Use button to deactivate alarm if currently sounding
-    if (alarmTimeIsReached()) {
+    if (alarmTimeIsReached() && !alarmDeactivated) {
       alarmDeactivated = true;
     } else {
       // Otherwise use button to toggle backlight on/off
@@ -128,13 +128,18 @@ void readRtc() {
 void renderDisplay() {
   char formatOutput[2]; // Buffer to process number formatting
 
+  lcd.clear();
+
   // Time
-  lcd.begin(16, 2);
   numberToDoubleDigitChar(currentHour, formatOutput);
   lcd.print(formatOutput); // Hour
   lcd.print(":");
   numberToDoubleDigitChar(currentMinute, formatOutput);
   lcd.print(formatOutput); // Minute
+
+  // Idle Wakie
+  lcd.setCursor(0, 1);
+  lcd.print("WAKIE");
 
   // Vertical spacer
   lcd.setCursor(6, 0);
@@ -186,6 +191,19 @@ bool alarmTimeIsReached() {
 void soundAlarm() {
   // Keep LCD backlight on during the alarm
   enableLcdBacklight();
+
+  char formatOutput[2]; // Buffer to process number formatting
+
+  // WAKIE
+  lcd.clear();
+  lcd.setCursor(4, 0);
+  numberToDoubleDigitChar(alarmHour, formatOutput);
+  lcd.print(formatOutput); // Hour
+  lcd.print(" : ");
+  numberToDoubleDigitChar(alarmMinute, formatOutput);
+  lcd.print(formatOutput); // Minute
+  lcd.setCursor(3, 1);
+  lcd.print("W A K I E");
 
   // Go through the note bitmap rows
   for (uint8_t row = 0; row < noteBitmapRows; row++) {
