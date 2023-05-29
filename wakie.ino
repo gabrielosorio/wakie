@@ -136,6 +136,10 @@ void renderDisplay() {
   numberToDoubleDigitChar(currentMinute, formatOutput);
   lcd.print(formatOutput); // Minute
 
+  // Idle Wakie
+  lcd.setCursor(0, 1);
+  lcd.print("WAKIE");
+
   // Vertical spacer
   lcd.setCursor(6, 0);
   lcd.print("|");
