@@ -63,6 +63,9 @@ unsigned char tuneBitmap[noteBitmapRows] = {
 void setup() {
   Serial.begin(9600);
 
+  // Interrupts
+  attachInterrupt(digitalPinToInterrupt(BUTTON), buttonInterrupt, FALLING);
+
   pinMode(BUTTON, INPUT);
   pinMode(LCD_LED, OUTPUT);
   digitalWrite(LCD_LED, HIGH);
@@ -87,11 +90,6 @@ void loop() {
     renderDisplay();
   }
 
-  if (digitalRead(BUTTON) == HIGH) {
-    Serial.println("Button pressed");
-    alarmDeactivated = true;
-  }
-
   // Current duration is within the specified alarmMinute
   if (alarmTimeIsReached(currentHour, currentMinute)) {
     if (!alarmDeactivated) {
@@ -105,6 +103,11 @@ void loop() {
       alarmDeactivated = false;
     }
   }
+}
+
+void buttonInterrupt() {
+    Serial.println("Button pressed");
+    alarmDeactivated = true;
 }
 
 void renderDisplay() {
