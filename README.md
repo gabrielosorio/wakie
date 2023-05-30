@@ -15,12 +15,14 @@ To make up for one of the utilities lost in the aftermath, I put together an ala
 
 <table>
 <tr>
+<td>Breadboard Prototype</td>
+<td>Assembled Prototype</td>
+</tr>
+<tr>
 <td>
-<p>Breadboard Prototype:</p>
 <img src="/hardware/breadboard_prototype.jpg" alt="Breadboard prototype" />
 </td>
 <td>
-<p>Assembled Prototype:</p>
 <img src="/hardware/assembled/side.jpg" alt="Assembled prototype side" />
 </td>
 </tr>
