@@ -11,15 +11,20 @@ To make up for one of the utilities lost in the aftermath, I put together an ala
 
 ## Hardware
 
-### Prototype
+### Prototypes
 
-Breadboard Prototype:
-
-![Breadboard prototype](/hardware/breadboard_prototype.jpg "Breadboard prototype")
-
-Assembled Prototype:
-
-![Assembled prototype side](/hardware/assembled/side.jpg "Assembled prototype side")
+<table>
+<tr>
+<td>
+<p>Breadboard Prototype:</p>
+<img src="/hardware/breadboard_prototype.jpg" alt="Breadboard prototype" />
+</td>
+<td>
+<p>Assembled Prototype:</p>
+<img src="/hardware/assembled/side.jpg" alt="Assembled prototype side" />
+</td>
+</tr>
+</table>
 
 ### BOM
 
