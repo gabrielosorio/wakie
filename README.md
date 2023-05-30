@@ -17,6 +17,10 @@ Breadboard Prototype:
 
 ![Breadboard prototype](/hardware/breadboard_prototype.png?raw=true "Breadboard prototype")
 
+Assembled Prototype:
+
+![Assembled prototype side](/hardware/assembled/side.jpg?raw=true "Assembled prototype side")
+
 ### BOM
 
 Components in the wiring diagram are merely illustrative and do not necessarily represent the exact make of the utilized parts.
@@ -48,6 +52,9 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 
 ![Alarm Display](/hardware/alarm_display.png?raw=true "Alarm Display")
 ![Date-Time Display](/hardware/datetime_display.png?raw=true "DateTime Display")
+![Assembled prototype top](/hardware/assembled/top.jpg?raw=true "Assembled prototype top")
+![Assembled prototype bottom](/hardware/assembled/bottom.jpg?raw=true "Assembled prototype bottom")
+![Assembled prototype wiring](/hardware/assembled/wiring.jpg?raw=true "Assembled prototype wiring")
 
 ## License
 
