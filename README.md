@@ -15,7 +15,7 @@ To make up for one of the utilities lost in the aftermath, I put together an ala
 
 Breadboard Prototype:
 
-![Breadboard prototype](/hardware/breadboard_prototype.png?raw=true "Breadboard prototype")
+![Breadboard prototype](/hardware/breadboard_prototype.jpg?raw=true "Breadboard prototype")
 
 Assembled Prototype:
 
