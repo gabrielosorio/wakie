@@ -11,11 +11,22 @@ To make up for one of the utilities lost in the aftermath, I put together an ala
 
 ## Hardware
 
-### Prototype
+### Prototypes
 
-Breadboard Prototype:
-
-![Breadboard prototype](/hardware/breadboard_prototype.png?raw=true "Breadboard prototype")
+<table>
+<tr>
+<td>Breadboard Prototype</td>
+<td>Assembled Prototype</td>
+</tr>
+<tr>
+<td>
+<img src="/hardware/breadboard_prototype.jpg" alt="Breadboard prototype" />
+</td>
+<td>
+<img src="/hardware/assembled/side.jpg" alt="Assembled prototype side" />
+</td>
+</tr>
+</table>
 
 ### BOM
 
@@ -48,6 +59,9 @@ Components in the wiring diagram are merely illustrative and do not necessarily 
 
 ![Alarm Display](/hardware/alarm_display.png?raw=true "Alarm Display")
 ![Date-Time Display](/hardware/datetime_display.png?raw=true "DateTime Display")
+![Assembled prototype top](/hardware/assembled/top.jpg?raw=true "Assembled prototype top")
+![Assembled prototype bottom](/hardware/assembled/bottom.jpg?raw=true "Assembled prototype bottom")
+![Assembled prototype wiring](/hardware/assembled/wiring.jpg?raw=true "Assembled prototype wiring")
 
 ## License
 
