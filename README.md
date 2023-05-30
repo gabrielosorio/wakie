@@ -15,11 +15,11 @@ To make up for one of the utilities lost in the aftermath, I put together an ala
 
 Breadboard Prototype:
 
-![Breadboard prototype](/hardware/breadboard_prototype.jpg?raw=true "Breadboard prototype")
+![Breadboard prototype](/hardware/breadboard_prototype.jpg "Breadboard prototype")
 
 Assembled Prototype:
 
-![Assembled prototype side](/hardware/assembled/side.jpg?raw=true "Assembled prototype side")
+![Assembled prototype side](/hardware/assembled/side.jpg "Assembled prototype side")
 
 ### BOM
 
