@@ -55,7 +55,7 @@ unsigned long nextBacklightDimTimestamp = 0;
 #define PIEZO 11
 const uint8_t noteBitmapRows = 2;
 const uint8_t noteBitmapColumns = 8;
-uint8_t noteDuration = 50;
+uint8_t noteDuration = 70;
 
 // Bits represent notes on or off
 unsigned char tuneBitmap[noteBitmapRows] = {
